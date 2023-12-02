@@ -21,7 +21,9 @@ case class Model(name : String, family : String = "", capacity : Int, fuelBurn :
         case x if (x <= 250) => MEDIUM
         case x if (x <= 350) => LARGE
         case x if (x <= 500) => X_LARGE
-        case _ => JUMBO
+        case x if (x <= 1000) => JUMBO
+        case x if (x <= 2000) => SUPERJUMBO
+        case x if (x > 2000) => SUPERLINER
       }
     }
   }
@@ -38,7 +40,8 @@ case class Model(name : String, family : String = "", capacity : Int, fuelBurn :
         case LARGE => capacity / 2.5 //180
         case X_LARGE => capacity / 2.5 //200
         case JUMBO => capacity / 2.5 //220
-        case SUPERSONIC => capacity / 2.5
+        case SUPERJUMBO => capacity / 2.1
+        case SUPERLINER => capacity / 1.7
       }).toInt
   }
 
@@ -91,7 +94,8 @@ object Model {
         case LARGE => "Large"
         case X_LARGE => "Extra large"
         case JUMBO => "Jumbo"
-        case SUPERSONIC => "Supersonic"
+        case SUPERJUMBO => "Superjumbo"
+        case SUPERLINER => "Superliner"
       }
     }
   }
@@ -103,8 +107,8 @@ object Model {
       LIGHT -> List(Type.LIGHT, Type.SMALL),
       REGIONAL -> List(Type.REGIONAL),
       MEDIUM -> List(Type.MEDIUM),
-      LARGE -> List(Type.LARGE, Type.X_LARGE, Type.JUMBO),
-      SUPERSONIC -> List(Type.SUPERSONIC)
+      LARGE -> List(Type.LARGE, Type.X_LARGE),
+      JUMBO -> List(Type.JUMBO, Type.SUPERJUMBO, Type.SUPERLINER)
     )
 
     val fromType = (airplaneType : Type.Value) => {
@@ -265,6 +269,9 @@ object Model {
     Model("Boeing 747-300", "Boeing 747", capacity = 660, fuelBurn = (660 * 6.2).toInt, speed = 910, range = 12400, price = 290000000, lifespan = 35 * 52, constructionTime = 48, Manufacturer("Boeing", countryCode = "US"), runwayRequirement = 3300, imageUrl = "https://www.norebbo.com/2019/10/boeing-747-300-side-view/"),
     Model("Boeing 747-400", "Boeing 747", capacity = 660, fuelBurn = (660 * 6.1).toInt, speed = 945, range = 13446, price = 350000000, lifespan = 35 * 52, constructionTime = 48, Manufacturer("Boeing", countryCode = "US"), runwayRequirement = 2955, imageUrl = "https://www.norebbo.com/2013/09/boeing-747-400-blank-illustration-templates/"),
     Model("Boeing 747-400ER", "Boeing 747", capacity = 660, fuelBurn = (660 * 6.2).toInt, speed = 913, range = 14200, price = 355000000, lifespan = 35 * 52, constructionTime = 48, Manufacturer("Boeing", countryCode = "US"), runwayRequirement = 3260, imageUrl = "https://www.norebbo.com/2013/09/boeing-747-400-blank-illustration-templates/"),
+    Model("Airbus A380-900", "Airbus A380", capacity = 871, fuelBurn = (871 * 5.95).toInt, speed = 943, range = 15900, price = 480000000, lifespan = 35 * 52, constructionTime = 54, Manufacturer("Airbus", countryCode = "NL"), runwayRequirement = 3025, imageUrl = "https://www.norebbo.com/2013/06/airbus-a380-800-blank-illustration-templates/"),
+    Model("Airbus A380-1000", "Airbus A380", capacity = 871, fuelBurn = (871 * 5.9).toInt, speed = 956, range = 16100, price = 510000000, lifespan = 35 * 52, constructionTime = 54, Manufacturer("Airbus", countryCode = "NL"), runwayRequirement = 3025, imageUrl = "https://www.norebbo.com/2013/06/airbus-a380-800-blank-illustration-templates/"),
+    Model("Airbus A321-N", "Airbus A320", capacity = 165, fuelBurn = (165 * 2.7).toInt, speed = 845, range = 20000, price = 200000000, lifespan = 25 * 52, constructionTime = 48, Manufacturer("Airbus", countryCode = "NL"), runwayRequirement = 1950, imageUrl = "https://www.norebbo.com/2013/06/airbus-a321-neo-blank-illustration-templates/"),
     Model("Airbus A380-800", "Airbus A380", capacity = 853, fuelBurn = (853 * 6).toInt, speed = 945, range = 15700, price = 450000000, lifespan = 35 * 52, constructionTime = 54, Manufacturer("Airbus", countryCode = "NL"), runwayRequirement = 3000, imageUrl = "https://www.norebbo.com/2013/06/airbus-a380-800-blank-illustration-templates/"))
   val modelByName = models.map { model => (model.name, model) }.toMap
 }
